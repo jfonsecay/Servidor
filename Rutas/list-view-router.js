@@ -13,13 +13,20 @@ const tasks = [
     completed: true},
 ];
 
+const manage = (req, res, next) => {
+  const {params1, params2} = req.params
+  if(!params1 || !params2){
+    res.status(405).json({error: 'parametros erroneos'})
+  }
+  next();
+}
 
-router.get('/completed', (req, res) => {
+router.get('/completed', manage, (req, res) => {
   const completedTasks = tasks.filter(task => task.completed);
   res.json(completedTasks);
 });
 
-router.get('/incomplete', (req, res) => {
+router.get('/incomplete', manage, (req, res) => {
   const incompleteTasks = tasks.filter(task => !task.completed);
   res.json(incompleteTasks);
 });
