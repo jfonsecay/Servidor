@@ -16,13 +16,22 @@ const tasks = [
     completed: true},
 ];
 
-router.post('/create', (req, res) => {
+const errorHandler = (err, req, res, next) => {
+  if(err instanceof SyntaxError && err.status === 400 && 'body' in err){
+    res.status(400).json({error: 'Solicitud invalida'});
+  }else{
+    next();
+  }
+}
+
+
+router.post('/create', errorHandler, (req, res) => {
   const newTask = req.body; 
   tasks.push(newTask);
   res.json(newTask);
 });
 
-router.delete('/delete/:id', (req, res) => {
+router.delete('/delete/:id', errorHandler, (req, res) => {
   const taskId = parseInt(req.params.id);
   const index = tasks.findIndex(task => task.id === taskId);
   if (index !== -1) {
