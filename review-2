@@ -1,0 +1,9 @@
+¿Qué es mi producto y para que sirve?
+R/ Este servidor es una lista de tareas mediante Express que funciona como un control
+de las tareas diarias que un usuario puede realizar.
+
+¿Cuáles son las funcionalidades más importantes y porque los usuarios las usarían?
+R/ Las principales funciones de este servidor es de llevar un control de las tareas
+asi como de si las tareas han sido completas o no, tambien de poder eliminar las
+tareas que ya se hayan completado asi como crear una nueva tarea o modificar las 
+mismas. 
