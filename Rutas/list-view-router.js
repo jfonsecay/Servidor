@@ -22,8 +22,13 @@ const manage = (req, res, next) => {
 }
 
 router.get('/completed', manage, (req, res) => {
-  const completedTasks = tasks.filter(task => task.completed);
-  res.json(completedTasks);
+  const taskId = parseInt(req.params.taskId);
+  const task = tasks.find(t => t.id === taskId);
+  if (!task) {
+    res.status(404).json({ error: 'Tarea no encontrada' });
+  } else {
+    res.json(task);
+  }
 });
 
 router.get('/incomplete', manage, (req, res) => {
