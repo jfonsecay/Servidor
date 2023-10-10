@@ -26,31 +26,31 @@ const errorHandler = (err, req, res, next) => {
 
 
 router.post('/create', errorHandler, (req, res) => {
-  const newTask = req.body; 
+  const newTask = req.body;
+  newTask.id = tasks.length + 1;
   tasks.push(newTask);
-  res.json(newTask);
+  res.status(201).json({ message: 'Tarea creada' });
 });
 
 router.delete('/delete/:id', errorHandler, (req, res) => {
-  const taskId = parseInt(req.params.id);
-  const index = tasks.findIndex(task => task.id === taskId);
-  if (index !== -1) {
-    tasks.splice(index, 1);
-    res.json({ message: 'Tarea eliminada con éxito' });
+  const taskId = parseInt(req.params.taskId);
+  const taskIndex = tasks.findIndex(t => t.id === taskId);
+  if (taskIndex === -1) {
+    res.status(404).json({ error: 'Tarea no encontrada' });
   } else {
-    res.status(404).json({ message: 'Tarea no encontrada' });
+    tasks.splice(taskIndex, 1);
+    res.json({ message: 'Tarea eliminada exitosamente' });
   }
 });
 
 router.put('/update/:id', (req, res) => {
-  const taskId = parseInt(req.params.id);
-  const updatedTask = req.body; 
-  const index = tasks.findIndex(task => task.id === taskId);
-  if (index !== -1) {
-    tasks[index] = { ...tasks[index], ...updatedTask };
-    res.json(tasks[index]);
+  const taskId = parseInt(req.params.taskId);
+  const taskIndex = tasks.findIndex(t => t.id === taskId);
+  if (taskIndex === -1) {
+    res.status(404).json({ error: 'Tarea no encontrada' });
   } else {
-    res.status(404).json({ message: 'Tarea no encontrada' });
+    tasks[taskIndex] = { ...tasks[taskIndex], ...req.body };
+    res.json({ message: 'Tarea actualizada exitosamente' });
   }
 });
 
